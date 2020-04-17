@@ -1,0 +1,8 @@
+div {
+  width: 100%;
+  &.flex-row-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

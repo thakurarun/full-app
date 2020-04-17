@@ -1,0 +1,103 @@
+<form
+  *ngIf="formGroup"
+  novalidate
+  [formGroup]="formGroup"
+  fxLayout="column"
+  fxLayoutAlign="center start"
+  fxLayoutGap="0px 10px"
+>
+  <mat-error *ngIf="formError$ | async as formError">
+    {{ formError }}
+  </mat-error>
+  <ng-container *ngFor="let field of fields">
+    <ng-container *ngIf="f(field.property) as control">
+      <ng-container [ngSwitch]="field.editor">
+        <mat-form-field
+          *ngSwitchCase="'email'"
+          appearance="outline"
+          color="accent"
+        >
+          <mat-label *ngIf="field.label">{{ field.label }}</mat-label>
+          <input
+            type="email"
+            matInput
+            placeholder="myemail@example.com"
+            [formControl]="control"
+            required="field.required ?? false"
+          />
+          <mat-error *ngIf="control.touched && control.dirty">
+            {{ getErrorMessage(control) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          *ngSwitchCase="'password'"
+          appearance="outline"
+          color="accent"
+        >
+          <mat-label *ngIf="field.label">{{ field.label }}</mat-label>
+          <input
+            type="password"
+            matInput
+            [formControl]="control"
+            required="field.required ?? false"
+          />
+          <mat-error *ngIf="control.touched && control.dirty">
+            {{ getErrorMessage(control) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          *ngSwitchCase="'number'"
+          appearance="outline"
+          color="accent"
+        >
+          <mat-label *ngIf="field.label">{{ field.label }}</mat-label>
+          <input
+            type="number"
+            matInput
+            [formControl]="control"
+            required="field.required ?? false"
+          />
+          <mat-error *ngIf="control.touched && control.dirty">
+            {{ getErrorMessage(control) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngSwitchDefault appearance="outline" color="accent">
+          <mat-label *ngIf="field.label">{{ field.label }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="control"
+            required="field.required ?? false"
+          />
+          <mat-error *ngIf="control.touched && control.dirty">
+            {{ getErrorMessage(control) }}
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <mat-error *ngIf="formGroup">
+    {{ getErrorMessage(formGroup) }}
+  </mat-error>
+  <mat-divider></mat-divider>
+  <div
+    class="button-section"
+    fxLayout="row"
+    fxLayoutGap="10px"
+    fxLayoutAlign="center center"
+  >
+    <button type="reset" mat-raised-button color="accent" (click)="resetForm()">
+      Clear
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      [disabled]="formGroup.invalid"
+      type="submit"
+      (click)="registerUser(formGroup.value)"
+    >
+      Register
+    </button>
+  </div>
+</form>
+<p *ngIf="!formGroup">No form group provided.</p>

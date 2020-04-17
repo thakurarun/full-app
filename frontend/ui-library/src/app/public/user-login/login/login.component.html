@@ -1,0 +1,46 @@
+<form
+  *ngIf="form"
+  novalidate
+  [formGroup]="form"
+  fxLayout="column"
+  fxLayoutAlign="center start"
+>
+  <mat-form-field
+    appearance="outline"
+    color="accent"
+    *ngIf="f('email') as control"
+  >
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      placeholder="myemail@example.com"
+      [formControl]="control"
+      required
+    />
+    <mat-error *ngIf="control.touched && control.dirty">
+      {{ getErrorMessage(control) }}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput [formControl]="f('password')" required />
+  </mat-form-field>
+  <mat-divider></mat-divider>
+  <div
+    class="button-section"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+  >
+    <button
+      mat-raised-button
+      color="accent"
+      [disabled]="form.invalid"
+      type="submit"
+      (click)="login(form.value)"
+    >
+      Login
+    </button>
+  </div>
+</form>
